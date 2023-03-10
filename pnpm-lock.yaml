@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@types/config': ^3.3.0
   '@types/lodash': ^4.14.191
+  '@types/lowdb': ^1.0.11
   '@types/node': ^18.14.4
   '@types/node-telegram-bot-api': ^0.61.0
   '@types/promise-queue': ^2.2.0
@@ -30,6 +31,7 @@ specifiers:
   typescript: ^4.9.5
 
 dependencies:
+  '@types/lowdb': 1.0.11
   chatgpt: registry.npmmirror.com/chatgpt/5.0.6
   config: registry.npmmirror.com/config/3.3.9
   dotenv: registry.npmmirror.com/dotenv/16.0.3
@@ -95,6 +97,16 @@ packages:
       '@types/ms': 0.7.31
     dev: false
     optional: true
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+    dev: false
+
+  /@types/lowdb/1.0.11:
+    resolution: {integrity: sha512-h99VMxvTuz+VsXUVCCJo4dsps4vbkXwvU71TpmxDoiBU24bJ0VBygIHgmMm+UPoQIFihmV6euRik4z8J7XDJWg==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: false
 
   /@types/mdast/3.0.10:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}

@@ -8,6 +8,7 @@ import {BotOptions} from '../types';
 import {logWithTime} from '../utils';
 import Queue from 'promise-queue';
 
+
 class ChatHandler {
   debug: number;
   protected _opts: BotOptions;
@@ -70,7 +71,7 @@ class ChatHandler {
     originalReply: TelegramBot.Message,
     messageThreadId : number|undefined
   ) => {
-    let from = {
+    const from = {
       message_thread_id: messageThreadId 
     }
     let reply = originalReply;
@@ -91,12 +92,18 @@ class ChatHandler {
           },
           3000,
           {leading: true, trailing: false}
-        )
+        ),
+        chatId,
+        messageThreadId
       );
       const resText =
         this._api.apiType == 'browser'
           ? (res as ChatResponseV3).response
           : (res as ChatResponseV4).text;
+      if(this._opts.db){
+        this._opts.db.data.posts.push(resText)
+        await  this._opts.db.write();
+      } 
       await this._editMessage(reply, resText);
 
       if (this.debug >= 1) logWithTime(`📨 Response:\n${resText}`);

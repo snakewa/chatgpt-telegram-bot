@@ -5,6 +5,7 @@ export interface BotOptions {
   userIds: number[];
   groupIds: number[];
   chatCmd: string;
+  db?: any;
 }
 
 export interface APIBrowserOptions {
@@ -57,3 +58,4 @@ export interface Config {
   api: APIOptions;
   proxy?: string;
 }
+

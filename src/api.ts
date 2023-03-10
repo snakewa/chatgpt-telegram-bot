@@ -22,6 +22,7 @@ interface ChatContext {
 
 class ChatGPT {
   debug: number;
+  db:any;
   readonly apiType: string;
   protected _opts: APIOptions;
   protected _api:
@@ -73,21 +74,34 @@ class ChatGPT {
 
   sendMessage = async (
     text: string,
-    onProgress?: (res: ChatResponseV3 | ChatResponseV4) => void
+    onProgress?: (res: ChatResponseV3 | ChatResponseV4) => void,
+    chatId?:number,
+    threadId?:number
   ) => {
     if (!this._api) return;
+    let context = this._context
+    const useDb = this.db && (chatId||threadId);
+    if(useDb){
+      const handleKey=`h${chatId}-${threadId ? threadId : '-'}`
+      if(this.db.data.chatHandles[handleKey]){
+        context = this.db.data.chatHandles[handleKey];
+      }
+    }
+    console.log({context})
 
     let res: ChatResponseV3 | ChatResponseV4;
     if (this.apiType == 'official') {
       if (!this._apiOfficial) return;
-      res = await this._apiOfficial.sendMessage(text, {
-        ...this._context,
+      const payload =  {
+        ...context,
         onProgress,
         timeoutMs: this._timeoutMs,
-      });
+      };
+      console.log({payload})
+      res = await this._apiOfficial.sendMessage(text,payload);
     } else {
       res = await this._api.sendMessage(text, {
-        ...this._context,
+        ...context,
         onProgress,
         timeoutMs: this._timeoutMs,
       });
@@ -102,6 +116,16 @@ class ChatGPT {
       conversationId: res.conversationId,
       parentMessageId: parentMessageId,
     };
+
+    if( useDb ){
+      const handleKey=`h${chatId}-${threadId ? threadId : '-'}`
+      this.db.data.chatHandles[handleKey] = {
+        conversationId: res.conversationId,
+        parentMessageId: parentMessageId,
+      }
+      console.log({parentMessageId})
+      await this.db.write();
+    }
 
     return res;
   };
