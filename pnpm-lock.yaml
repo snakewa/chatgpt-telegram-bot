@@ -19,6 +19,7 @@ specifiers:
   husky: ^8.0.3
   lint-staged: ^13.1.2
   lodash: ^4.17.21
+  lowdb: ^5.1.0
   node-fetch: ^3.3.0
   node-telegram-bot-api: ^0.61.0
   prettier: ^2.8.4
@@ -35,6 +36,7 @@ dependencies:
   extensionless: registry.npmmirror.com/extensionless/1.1.0
   https-proxy-agent: registry.npmmirror.com/https-proxy-agent/5.0.1
   lodash: registry.npmmirror.com/lodash/4.17.21
+  lowdb: 5.1.0
   node-fetch: registry.npmmirror.com/node-fetch/3.3.0
   node-telegram-bot-api: 0.61.0
   promise-queue: registry.npmmirror.com/promise-queue/2.2.5
@@ -942,6 +944,13 @@ packages:
     dev: false
     optional: true
 
+  /lowdb/5.1.0:
+    resolution: {integrity: sha512-OEysJ2S3j05RqehEypEv3h6EgdV4Y7LTq7LngRNqe1IxsInOm66/sa3fzoI6mmqs2CC+zIJW3vfncGNv2IGi3A==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      steno: 3.0.0
+    dev: false
+
   /map-age-cleaner/0.2.0:
     resolution: {integrity: sha512-AvxTC6id0fzSf6OyNBTp1syyCuKO7nOJvHgYlhT0Qkkjvk40zZo+av3ayVgXlxnF/DxEzEfY9mMdd7FHsd+wKQ==}
     engines: {node: '>=7.6'}
@@ -1666,6 +1675,11 @@ packages:
   /stealthy-require/1.1.1:
     resolution: {integrity: sha512-ZnWpYnYugiOVEY5GkcuJK1io5V8QmNYChG62gSit9pQVGErXtrKuPC55ITaVSukmMta5qpMU7vqLt2Lnni4f/g==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /steno/3.0.0:
+    resolution: {integrity: sha512-uZtn7Ht9yXLiYgOsmo8btj4+f7VxyYheMt8g6F1ANjyqByQXEE2Gygjgenp3otHH1TlHsS4JAaRGv5wJ1wvMNw==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /string.prototype.trimend/1.0.6:
