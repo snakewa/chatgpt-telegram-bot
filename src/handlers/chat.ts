@@ -30,6 +30,7 @@ class ChatHandler {
     if (!text) return;
 
     const chatId = msg.chat.id;
+    const messageThreadId = msg.message_thread_id
     if (this.debug >= 1) {
       const userInfo = `@${msg.from?.username ?? ''} (${msg.from?.id})`;
       const chatInfo =
@@ -46,7 +47,7 @@ class ChatHandler {
 
     // add to sequence queue due to chatGPT processes only one request at a time
     const requestPromise = this._apiRequestsQueue.add(() => {
-      return this._sendToGpt(text, chatId, reply);
+      return this._sendToGpt(text, chatId, reply, messageThreadId);
     });
     if (this._n_pending == 0) this._n_pending++;
     else this._n_queued++;
@@ -66,10 +67,14 @@ class ChatHandler {
   protected _sendToGpt = async (
     text: string,
     chatId: number,
-    originalReply: TelegramBot.Message
+    originalReply: TelegramBot.Message,
+    messageThreadId : number|undefined
   ) => {
+    let from = {
+      message_thread_id: messageThreadId 
+    }
     let reply = originalReply;
-    await this._bot.sendChatAction(chatId, 'typing');
+    await this._bot.sendChatAction(chatId, 'typing', from);
 
     // Send message to ChatGPT
     try {
@@ -82,7 +87,7 @@ class ChatHandler {
                 ? (partialResponse as ChatResponseV3).response
                 : (partialResponse as ChatResponseV4).text;
             reply = await this._editMessage(reply, resText);
-            await this._bot.sendChatAction(chatId, 'typing');
+            await this._bot.sendChatAction(chatId, 'typing', from );
           },
           3000,
           {leading: true, trailing: false}
